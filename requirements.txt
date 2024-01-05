@@ -8,6 +8,7 @@ arrow==1.3.0
 asttokens==2.4.1
 async-lru==2.0.4
 attrs==23.2.0
+gunicorn==19.7.1
 Babel==2.14.0
 beautifulsoup4==4.12.2
 bidict==0.22.1
