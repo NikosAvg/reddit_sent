@@ -6,7 +6,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.sentiment import SentimentIntensityAnalyzer
 import nltk
-nltk.download('stopwords')
+nltk.download()
 def preprocess_text_data(text_data):
     stopwords_set = set(stopwords.words('english'))
     text_data.loc[:, 'text'] = text_data['text'].apply(lambda words: ' '.join(word.lower() for word in word_tokenize(words) if word.lower() not in stopwords_set))
