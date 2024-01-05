@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Data Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+    <div class="container text-center">
+        <h1>Reddit Sentiment - Price Dashboard - {{ pair }}</h1>
+        <h2>Days Range: {{ days }}</h2>
+    </div>
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md">
+                <div id="postsPerDayPlot"></div>
+            </div>
+            <div class="col-md">
+                <div id="sentimentDistributionPlot"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <div id="sentimentPricePlot"></div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div id="topPostsSentimentPlot"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch data from the /get_data route with parameters
+            fetch(`/get_data?pair={{ pair }}&days={{ days }}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data);
+                    // Call functions to create plots
+                    createSentimentPricePlot(data.sentiment_price_data);
+                    createPostsPerDayPlot(data.posts_per_day_data);
+                    createSentimentDistributionPlot(data.sentiment_distribution_data);
+                    createTopPostsSentimentPlot(data.top_posts_data);
+                });
+        });
+
+        function createPlots(sentimentPriceData, postsPerDayData, sentimentDistributionData, topPostsSentimentData) {
+            createSentimentPricePlot(sentimentPriceData);
+            createPostsPerDayPlot(postsPerDayData);
+            createSentimentDistributionPlot(sentimentDistributionData);
+            createTopPostsSentimentPlot(topPostsSentimentData);
+        }
+
+        function createSentimentPricePlot(sentimentPriceData) {
+            const dates = sentimentPriceData.map(entry => entry.Date);  // Extract the first 16 characters;
+            const sentimentValues = sentimentPriceData.map(entry => entry.Sentiment);
+            const priceValues = sentimentPriceData.map(entry => entry.close);
+
+            const sentimentTrace = {
+                x: dates,
+                y: sentimentValues,
+                type: 'line',
+                name: 'Sentiment',
+                mode: 'lines+markers',
+                marker: { color: 'blue' }
+            };
+
+            const priceTrace = {
+                x: dates,
+                y: priceValues,
+                type: 'line',
+                name: 'Price',
+                mode: 'lines+markers',
+                marker: { color: 'red' },
+                yaxis: 'y2'
+            };
+
+            const layout = {
+                title: 'Sentiment and Price Over Days',
+                xaxis: { title: 'Date', linecolor: 'rgba(0,0,0,0)', showline: false },
+                yaxis: { title: 'Sentiment', autorange: true },
+                yaxis2: { title: 'Price', autorange: true, overlaying: 'y', side: 'right' },
+                autosize: true,
+                margin: { t: 30, b: 30 }  // Adjust the top and bottom margin as needed
+            };
+
+            Plotly.newPlot('sentimentPricePlot', [sentimentTrace, priceTrace], layout);
+        }
+
+        function createPostsPerDayPlot(postsPerDayData) {
+            const dates = postsPerDayData.map(entry => entry.timestamp);  // Extract the first 16 characters
+            const postCounts = postsPerDayData.map(entry => entry.Hastext);
+
+            const trace = {
+                x: dates,
+                y: postCounts,
+                type: 'bar',
+                name: 'Number of Posts',
+                marker: { color: 'green' }
+            };
+
+            const layout = {
+                title: 'Number of Posts per Day',
+                xaxis: {
+                    title: 'Date',
+                    tickfont: {
+                        size: 10  // Adjust the font size as needed
+                    }
+                },
+                yaxis: { title: 'Number of Posts' },
+
+            };
+
+            Plotly.newPlot('postsPerDayPlot', [trace], layout);
+        }
+
+        function createSentimentDistributionPlot(sentimentDistributionData) {
+            const labels = sentimentDistributionData.map(entry => entry.SentimentCategory);
+            const values = sentimentDistributionData.map(entry => entry.count);
+
+            // Define a color mapping based on sentiment categories
+            const colorMapping = {
+                'Positive': 'green',
+                'Neutral': 'gray',
+                'Negative': 'red'
+            };
+
+            const trace = {
+                labels: labels,
+                values: values,
+                type: 'pie',
+                name: 'Sentiment Distribution',
+                marker: {
+                    colors: labels.map(category => colorMapping[category])
+                }
+            };
+
+            const layout = {
+                title: 'Sentiment Distribution',
+                pull: [0.1, 0, 0],
+            };
+
+            Plotly.newPlot('sentimentDistributionPlot', [trace], layout);
+        }
+
+        function createTopPostsSentimentPlot(topPostsSentimentData) {
+            const titles = topPostsSentimentData.map(entry => entry.title);
+            const upvotes = topPostsSentimentData.map(entry => entry.upvotes);
+            const sentiments = topPostsSentimentData.map(entry => entry.Sentiment);
+
+            const trace = {
+                x: upvotes,
+                y: sentiments,
+                mode: 'markers',
+                marker: {
+                    size: 30,  // Adjust the marker size as needed
+                    color: sentiments.map(sentiment => sentiment === 0 ? 'gray' : (sentiment < 0 ? 'red' : 'green')),
+                    opacity: 0.7,
+                    line: { width: 0.5, color: 'black' }
+                },
+                type: 'scatter'
+            };
+
+            const layout = {
+                title: 'Top Posts Sentiment vs. Upvotes',
+                xaxis: { title: 'Upvotes' },
+                yaxis: { title: 'Sentiment', autorange: true },
+                autosize: true,
+
+            };
+
+            Plotly.newPlot('topPostsSentimentPlot', [trace], layout);
+        }
+
+    </script>
+</body>
+
+</html>

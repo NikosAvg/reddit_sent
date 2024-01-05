@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Data Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        li {
+            list-style-type: none
+        }
+
+        #introduction {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        #introduction h1 {
+            color: #343a40;
+        }
+
+        #introduction p {
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container-sm text-center">
+
+        <div id="introduction" class="container">
+            <h1 class="display-4">Reddit Sentiment Analysis Dashboard</h1>
+            <p class="lead">Welcome to the Reddit Sentiment Analysis Dashboard! This interactive dashboard provides a
+                comprehensive analysis of sentiments expressed in Reddit posts related to cryptocurrency, coupled with
+                the
+                corresponding price trends.</p>
+
+            <h2 class="mt-4">Features:</h2>
+            <ul>
+                <li><strong>Sentiment and Price Over Days:</strong> Track the sentiment scores of Reddit posts alongside
+                    cryptocurrency price movements over time.</li>
+                <li><strong>Number of Posts per Day:</strong> Visualize the volume of Reddit posts on a daily basis.
+                </li>
+                <li><strong>Sentiment Distribution:</strong> Explore the distribution of sentiments among Reddit posts,
+                    categorized as Positive, Negative, or Neutral.</li>
+                <li><strong>Top Posts Sentiment:</strong> Discover the sentiment analysis of the top-rated Reddit posts,
+                    including their titles, upvotes, and sentiment scores.</li>
+            </ul>
+
+            <h2 class="mt-4">How to Use:</h2>
+            <ol>
+                <li><strong>Select Pair and Days:</strong> On the index page, choose the cryptocurrency pair you're
+                    interested
+                    in and the number of days for the analysis.</li>
+                <li><strong>Explore Insights:</strong> Click on "Submit" to generate the analysis based on your chosen
+                    parameters.</li>
+                <li><strong>Navigate Plots:</strong> View the interactive plots that provide insights into Reddit
+                    sentiments and
+                    cryptocurrency price movements.</li>
+                <li><strong>Responsive Design:</strong> The dashboard is designed to be responsive, ensuring a seamless
+                    experience across different devices.</li>
+            </ol>
+
+            <p class="lead">Explore the dynamic relationship between Reddit sentiments and cryptocurrency prices. Dive
+                into the
+                world of sentiment analysis with this dashboard!</p>
+        </div>
+        <form action="/dashboard" method="GET">
+
+            <div class="mb-3">
+                <label for="pair" class="form-label">Select Pair:</label>
+                <select class="form-control" id="pair" name="pair">
+                    <option value="BTC/EUR">BTC/EUR</option>
+                    <option value="ETH/EUR">ETH/EUR</option>
+                    <option value="XMR/EUR">XMR/EUR</option>
+                    <option value="DOT/EUR">DOT/EUR</option>
+                    <option value="ADA/EUR">ADA/EUR</option>
+                </select required>
+            </div>
+            <div class="mb-3">
+                <label for="days" class="form-label">Select Days Range:</label>
+                <input class="form-control" type="number" id="days" name="days" min="1" value="7" required>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Submit</button>
+
+        </form>
+
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+</html>
