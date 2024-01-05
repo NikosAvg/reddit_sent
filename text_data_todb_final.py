@@ -64,7 +64,7 @@ def update_reddit_data_in_sqlite(db_path, table_name='reddit_data'):
     print(f'Reddit data has been updated in {db_path}, table: {table_name}')
 
 # Example usage:
-db_path_reddit = 'reddit_data.db'
+db_path_reddit = 'db/reddit_data.db'
 table_name_reddit = 'reddit_data'
 
 for search_query in search_querys:
