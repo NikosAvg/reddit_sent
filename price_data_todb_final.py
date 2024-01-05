@@ -28,6 +28,6 @@ def update_kraken_data_in_sqlite(db_path, table_name='kraken_data',symbol):
 symbols = ['BTC/EUR','ETH/EUR','XMR/EUR','ADA/EUR','DOT/EUR']
 timeframe = '1d'
 for symbol in symbols:
-    db_path = 'kraken_data.db'
+    db_path = 'db/kraken_data.db'
     table_name = 'kraken_data'
     update_kraken_data_in_sqlite(db_path, table_name,symbol)
