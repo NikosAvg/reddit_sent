@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.sentiment import SentimentIntensityAnalyzer
-
+import nltk
 nltk.download('stopwords')
 def preprocess_text_data(text_data):
     stopwords_set = set(stopwords.words('english'))
