@@ -10,4 +10,4 @@ mkdir -p nltk_data
 export NLTK_DATA=$(pwd)/nltk_data
 
 # Download 'punkt'
-python -m nltk.downloader punkt
+python -m nltk.downloader all
