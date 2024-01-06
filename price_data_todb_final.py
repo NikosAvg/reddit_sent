@@ -10,7 +10,7 @@ def get_latest_timestamp_from_sqlite(db_path, table_name='kraken_data'):
     conn.close()
     return result[0] if result[0] else None
 
-def update_kraken_data_in_sqlite(db_path, table_name='kraken_data',symbol):
+def update_kraken_data_in_sqlite(db_path, table_name, symbol):
     latest_timestamp = get_latest_timestamp_from_sqlite(db_path, table_name)
     since = latest_timestamp or (datetime.utcnow() - timedelta(days=1)).isoformat()
 
