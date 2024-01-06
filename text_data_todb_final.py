@@ -40,7 +40,9 @@ def update_reddit_data_in_sqlite(db_path, table_name='reddit_data'):
 
             data = []
             for submission in results:
-                if latest_timestamp and submission.created_utc <= latest_timestamp:
+                latest_timestamp_datetime = datetime.utcfromtimestamp(latest_timestamp) if latest_timestamp else None
+                print(submission.created_utc,latest_timestamp)
+                if latest_timestamp_datetime and submission.created_utc <= latest_timestamp_datetime:
                     continue
 
                 data.append({
@@ -54,7 +56,13 @@ def update_reddit_data_in_sqlite(db_path, table_name='reddit_data'):
     reddit_data = pd.DataFrame(data)
     reddit_data['timestamp'] = pd.to_datetime(reddit_data['timestamp'])
 
-    stopwords = set(stopwords.words('english'))
+    with open('utils/stopwords.txt', 'r') as file:
+        # Read the content of the file and split it into lines
+        lines = file.readlines()
+
+    # Remove newline characters from each line and create a list
+    stopwords = [line.strip() for line in lines]
+    stopwords_set = set(stopwords)
     reddit_data['text'] = reddit_data['text'].apply(lambda words: ' '.join(word.lower() for word in word_tokenize(words) if word.lower() not in stopwords))
 
     conn = sqlite3.connect(db_path)

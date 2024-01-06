@@ -47,7 +47,7 @@ def preprocess_text_data(text_data):
     return daily_sentiment
 
 def merge_sentiment_and_price(daily_sentiment, price_df):
-    merged_df = pd.merge(daily_sentiment, price_df, on='Date', how='inner')
+    merged_df = pd.merge(daily_sentiment, price_df, on='Date', how='outer')
     return merged_df
 
 def plot_sentiment_price(merged_df):
