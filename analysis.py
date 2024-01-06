@@ -3,11 +3,17 @@ import plotly.express as px
 from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
 from nltk.sentiment import SentimentIntensityAnalyzer
 
 def preprocess_text_data(text_data):
-    stopwords_set = set(stopwords.words('english'))
+    # Open the file in read mode
+    with open('utils\stopwords.txt', 'r') as file:
+        # Read the content of the file and split it into lines
+        lines = file.readlines()
+
+    # Remove newline characters from each line and create a list
+    stopwords = [line.strip() for line in lines]
+    stopwords_set = set(stopwords)
     text_data.loc[:, 'text'] = text_data['text'].apply(lambda words: ' '.join(word.lower() for word in word_tokenize(words) if word.lower() not in stopwords_set))
     text_data.loc[:, 'title'] = text_data['title'].apply(lambda words: ' '.join(word.lower() for word in word_tokenize(words) if word.lower() not in stopwords_set))
 
