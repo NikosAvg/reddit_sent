@@ -8,11 +8,11 @@ def update_databases():
 
     db_path_reddit = 'reddit_data.db'
     table_name_reddit = 'reddit_data'
-
+    update_reddit_data_in_sqlite(db_path_reddit, table_name_reddit)
     for symbol in symbols:
         update_kraken_data_in_sqlite(db_path_kraken, table_name_kraken, symbol)
 
-    update_reddit_data_in_sqlite(db_path_reddit, table_name_reddit)
+
 
 if __name__ == "__main__":
     update_databases()

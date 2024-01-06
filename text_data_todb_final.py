@@ -19,8 +19,9 @@ def get_latest_timestamp_from_sqlite(db_path, table_name='reddit_data'):
     return result[0] if result[0] else None
 
 def update_reddit_data_in_sqlite(db_path, table_name='reddit_data'):
-    latest_timestamp = get_latest_timestamp_from_sqlite(db_path, table_name)
-
+    #latest_timestamp = get_latest_timestamp_from_sqlite(db_path, table_name)
+    latest_timestamp_str = get_latest_timestamp_from_sqlite(db_path, table_name) or '1970-01-01 00:00:00'
+    latest_timestamp = datetime.strptime(latest_timestamp_str, '%Y-%m-%d %H:%M:%S').timestamp()
     reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent)
     subreddit_names = ['Bitcoin', 'CryptoCurrency', 'CryptoMarkets']
     search_querys = ['Bitcoin','Etherium','Dot','ADA','XMR']
@@ -40,9 +41,10 @@ def update_reddit_data_in_sqlite(db_path, table_name='reddit_data'):
 
             data = []
             for submission in results:
-                latest_timestamp_datetime = datetime.utcfromtimestamp(latest_timestamp) if latest_timestamp else None
-                print(submission.created_utc,latest_timestamp)
-                if latest_timestamp_datetime and submission.created_utc <= latest_timestamp_datetime:
+                # print(submission)
+
+                # print(submission.created_utc,latest_timestamp)
+                if latest_timestamp and submission.created_utc <= latest_timestamp:
                     continue
 
                 data.append({
@@ -54,7 +56,10 @@ def update_reddit_data_in_sqlite(db_path, table_name='reddit_data'):
                 })
 
     reddit_data = pd.DataFrame(data)
+    # print(reddit_data)
     reddit_data['timestamp'] = pd.to_datetime(reddit_data['timestamp'])
+    # print(reddit_data)
+
 
     with open('utils/stopwords.txt', 'r') as file:
         # Read the content of the file and split it into lines
