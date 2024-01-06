@@ -4,6 +4,7 @@ import sqlite3
 import pandas as pd
 import json
 from datetime import datetime, timedelta
+from update_data import update_databases
 
 app = Flask(__name__)
 def fetch_data_from_sqlite(db_path, table_name, symbol, days_range):
@@ -58,6 +59,15 @@ def dashboard():
                            top_posts_data=top_posts_data,pair=crypto_pair, days=days_range)
 
 
+@app.route('/update_database', methods=['GET'])
+def update_database():
+    try:
+        update_databases()
+        message = 'Databases updated successfully'
+    except Exception as e:
+        message = f'Error updating databases: {str(e)}'
+
+    return jsonify(message=message)
 
 # Add an API endpoint to fetch data for plots asynchronously
 @app.route('/get_data', methods=['GET'])
