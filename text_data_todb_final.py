@@ -66,7 +66,3 @@ def update_reddit_data_in_sqlite(db_path, table_name='reddit_data'):
 # Example usage:
 db_path_reddit = 'reddit_data.db'
 table_name_reddit = 'reddit_data'
-
-for search_query in search_querys:
-    reddit_data = get_reddit_data(subreddit_names, search_query, time_filter)
-    update_reddit_data_in_sqlite(db_path_reddit, table_name_reddit)
