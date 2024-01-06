@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from nltk.tokenize import word_tokenize
 from nltk.sentiment import SentimentIntensityAnalyzer
+import nltk
 
 def preprocess_text_data(text_data):
     # Open the file in read mode
