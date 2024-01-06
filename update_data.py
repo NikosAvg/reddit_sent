@@ -3,10 +3,10 @@ from text_data_to_db_final import update_reddit_data_in_sqlite
 
 def update_databases():
     symbols = ['BTC/EUR', 'ETH/EUR', 'XMR/EUR', 'ADA/EUR', 'DOT/EUR']
-    db_path_kraken = 'db/kraken_data.db'
+    db_path_kraken = 'kraken_data.db'
     table_name_kraken = 'kraken_data'
 
-    db_path_reddit = 'db/reddit_data.db'
+    db_path_reddit = 'reddit_data.db'
     table_name_reddit = 'reddit_data'
 
     for symbol in symbols:
