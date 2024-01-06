@@ -7,7 +7,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 def preprocess_text_data(text_data):
     # Open the file in read mode
-    with open('utils\stopwords.txt', 'r') as file:
+    with open('utils/stopwords.txt', 'r') as file:
         # Read the content of the file and split it into lines
         lines = file.readlines()
 
