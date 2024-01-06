@@ -5,6 +5,19 @@ import plotly.graph_objects as go
 from nltk.tokenize import word_tokenize
 from nltk.sentiment import SentimentIntensityAnalyzer
 
+import os
+import nltk
+
+# Determine the path to the NLTK data directory
+nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
+
+# Ensure the NLTK data path exists
+if not os.path.exists(nltk_data_path):
+    os.makedirs(nltk_data_path)
+
+# Set NLTK data path
+nltk.data.path.append(nltk_data_path)
+
 def preprocess_text_data(text_data):
     # Open the file in read mode
     with open('utils/stopwords.txt', 'r') as file:
