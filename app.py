@@ -4,7 +4,7 @@ import sqlite3
 import pandas as pd
 import json
 from datetime import datetime, timedelta
-from update_data import update_databases
+#from update_data import update_databases
 
 app = Flask(__name__)
 def fetch_data_from_sqlite(db_path, table_name, symbol, days_range):
