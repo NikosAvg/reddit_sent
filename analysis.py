@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from nltk.tokenize import word_tokenize
 from nltk.sentiment import SentimentIntensityAnalyzer
-
 import os
 import nltk
 
@@ -74,7 +73,6 @@ def plot_sentiment_distribution(sentiment_distribution_data):
     return fig
 
 def plot_top_posts_sentiment(top_posts):
-    print(f'top posts  = {type(top_posts)}')
     colors = ['red' if sentiment['Sentiment'] < 0 else 'green' for sentiment in top_posts]
 
     fig = px.scatter(top_posts, x='upvotes', y='Sentiment', size='upvotes', color=colors, opacity=0.7,

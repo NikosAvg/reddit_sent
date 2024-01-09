@@ -96,7 +96,11 @@
             </div>
             <div class="mb-3">
                 <label for="days" class="form-label">Select Days Range:</label>
-                <input class="form-control" type="number" id="days" name="days" min="1" value="7" required>
+                <select class="form-control" id="days" name="days">
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                    <option value="year">Year</option>
+                </select required>
             </div>
 
             <button class="btn btn-primary" type="submit">Submit</button>

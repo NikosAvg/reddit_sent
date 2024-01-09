@@ -6,7 +6,7 @@ import sqlite3
 def get_kraken_data(symbol='BTC/EUR', timeframe='1d', since=None):
     kraken = ccxt.kraken()
 
-    # Set the since parameter to fetch data from the past week
+    # Set the since parameter to fetch data from the past 360 days
     if since is None:
         since = kraken.parse8601((datetime.utcnow() - timedelta(days=360)).isoformat())
 
